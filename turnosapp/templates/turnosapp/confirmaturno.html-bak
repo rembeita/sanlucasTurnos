@@ -1,0 +1,104 @@
+<!--
+{% include "turnosapp/header.html" %}
+<body>
+<section class="container">
+    <div class="site">
+      <h1>Sistema de Turnos</h1>
+      <h3>Nombre: {{ ACCIDEN }}</h3>
+      <h3>Nombre: {{ NOMBREMEDICO }}</h3>
+	<h3>Especialidad: {{ ESPECIALIDAD }}</h3>
+	<h3>Seleccione el Horario del turno</h3>
+	<form method="post" action="/turnosapp/elegirTurno/">
+ 		<h3>Turnos:</h3>
+		<table>
+			{% for i in LISTAMEDICOLIBRE %}
+				{% cycle '<tr>' '' '' '' %}
+				<td>
+					<p class="submit"><input type="submit" name="horariomedico" value="{{ i }}"> </p>
+				</td>
+				{% cycle '' '' '' '</tr>' %}
+			{% endfor %} 
+		</table>
+   		{% csrf_token %}
+       		<p class="submit">
+			<input type="submit" name="return" value="Salir">
+			<input type="hidden" name="nombrepaciente" value="{{ ACCIDEN }}">
+		</p>
+  	</form>  
+
+    </div>
+</section>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Sistema de Turnos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="blurBg-false" style="background-color:#EBEBEB">
+
+
+
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/static/formoid-solid-blue.css" type="text/css" />
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="/turnosapp/elegirTurno/">
+        {% csrf_token %}
+	<div class="title">
+		<h2>Sistema de Turnos</h2>
+	</div>
+	<div class="title2" align="center">
+		<h3>PACIENTE: {{ NOMBREPACIENTE }}</h3>
+		<h3>DNI: {{ DNIPACIENTE }}</h3>
+		<h3>MEDICO: {{ NOMBREMEDICO  }}</h3>
+		<h3>ESPECIALIDAD: {{ ESPECIALIDAD  }}</h3>
+		<h3>FECHA: {{ FECHA }}</h3>
+		<input type="hidden" name="nombrepaciente" value="{{ PACIENTE }}">
+		<input type="hidden" name="dnipaciente" value="{{ DNIPACIENTE }}">
+	      	<input type="hidden" name="nomPaciente" value="{{ nomPaciente }}">
+	        <input type="hidden" name="dniPaciente" value="{{ dniPaciente }}">
+        	<input type="hidden" name="codMedico" value="{{ codMedico }}">
+      	 	<input type="hidden" name="nomMedico" value="{{ nomMedico }}">
+      		<input type="hidden" name="especialidad" value="{{ especialidad }}">
+
+	</div>
+	<div class="title3">
+		<h4>Turnos Disponibles</h4>
+	</div>
+                {% for key, value in DICMEDICOTMP.iteritems %}
+	<div class="element-input"> 
+			<label class="title"></label> 
+				<div class="item-cont" align="center">
+				     <table>
+		                        {% for i in LISTAMEDICOLIBRE %}
+                		                {% cycle '<tr>' '' '' '' %}
+                               		 <td>
+                                       		 <p class="submit"><input type="submit" name="horariomedico" value="{{ i }}"> </p>
+						<p>hola</p>
+                               		 </td>
+                              		  {% cycle '' '' '' '</tr>' %}
+                      			  {% endfor %} 
+              		             </table>
+
+
+					<button name="datosmedico" type="submit"id="botonmedico"  value="{{ value.1 }} || {{value.3}} || {{value.0 }}" >
+					{{ value.1 }} || {{value.3}}						 
+					</button>
+				</div>
+	
+	</div>
+                {% endfor %} 
+
+<div class="submit">
+	<input type="submit" name="return" value="Salir">
+</div>
+
+</form>
+</body>
+</html>
+
+

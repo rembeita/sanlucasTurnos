@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Sistema de Turnos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="blurBg-false" style="background-color:#EBEBEB">
+<script type="text/javascript">
+	window.onload = function () { window.print(); }
+</script>
+
+
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/static/formoid-solid-blue.css" type="text/css" />
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:600px;min-width:150px" method="post" action="/turnosapp/finalturno/">
+        {% csrf_token %}
+	<div class="title">
+		<h2>Sistema de Turnos</h2>
+	</div>
+	<div class="title2" align="center">
+		<h3>PACIENTE: {{ nomPaciente }}</h3>
+		<h3>DNI: {{ dniPaciente }}</h3>
+		<h3>MEDICO: {{ nomMedico  }}</h3>
+		<h3>ESPECIALIDAD: {{ especialidad  }}</h3>
+		<h3>FECHA: {{ fecha }}</h3>
+		<h3>HORA: {{ hora }}</h3>
+	      	<input type="hidden" name="nomPaciente" value="{{ nomPaciente }}">
+	        <input type="hidden" name="dniPaciente" value="{{ dniPaciente }}">
+        	<input type="hidden" name="codMedico" value="{{ codMedico }}">
+      	 	<input type="hidden" name="nomMedico" value="{{ nomMedico }}">
+      		<input type="hidden" name="especialidad" value="{{ especialidad }}">
+      		<input type="hidden" name="fecha" value="{{ fecha }}">
+      		<input type="hidden" name="horarioMedico" value="{{ horarioMedico }}">
+
+	</div>
+	<div class="title3">
+		<h4 style="color: {{ color }}"> {{ mensaje }}</h4>
+	</div>
+
+</form>
+
+</body>
+</html>
+
+

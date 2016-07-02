@@ -1,0 +1,94 @@
+from django.shortcuts import render
+
+
+# Create your views here.
+
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+from django.views.generic import RedirectView
+
+from .models import Chc
+from .models import Turnos
+from .models import Dres
+from .models import Espec
+from .models import Tblhmed
+
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+
+
+def elegirTurno(request):
+	import calendar
+	import locale
+	import datetime
+
+	returnValue=""
+	if request.method == 'POST':
+		formvar = request.POST
+		if (formvar.has_key('accion')):
+			avance = int(formvar['avance'])
+			accion = str(formvar['accion'])
+			if (accion == "Avanzar"):
+				avance+=1
+			else:
+				avance-=1
+			nomPaciente = str(formvar['nomPaciente'])
+			dniPaciente = str(formvar['dniPaciente'])
+		        nomMedico = str(formvar['nomMedico'])
+		        codMedico = str(formvar['codMedico'])
+		        especialidad = str(formvar['especialidad'])
+		else:
+			avance=0
+			if (formvar.has_key('return')):
+				if (str(formvar['return']) == 'Salir'):
+					return HttpResponseRedirect('/turnosapp/')
+			else:
+				medicoEleccion = str(formvar['datosmedico'])
+#				ver que perdi el nombre del paciente
+				nomPaciente = str(formvar['nombrepaciente'])
+				dniPaciente = str(formvar['dnipaciente'])
+#				medicoEleccion = 'aa || expecialidad || 53'
+				nomMedico, especialidad, codMedico = medicoEleccion.split("||")
+	codMedico=codMedico.strip()
+	locale.setlocale(locale.LC_ALL, '')
+	now=datetime.datetime.now()
+	year=now.year -1
+	month=now.month+avance
+
+	#controlar si se pasa de mes 12
+	if (month > 12): 
+		dif=month-12
+		year+=1
+		month=dif
+
+	monthList=calendar.monthcalendar(year,month)
+
+	#Preparo contexto para devolver a template
+	lstFechas=[]
+#	fechas=Tblhmed.objects.filter(medico=codMedico).values("fecha")
+	
+	fechas=Tblhmed.objects.filter(medico=codMedico,fecha__year = "%s" % (year),fecha__month = "%s" % (month)).values("fecha")
+	for fecha in fechas:
+		print fecha
+		yearMed, monthMed, dayMed = str(fecha["fecha"]).split("-")
+		lstFechas.append(int(dayMed.lstrip("0"))) 
+	
+	context = locals()
+	context["lstFechas"]=lstFechas
+	context["lista"]=[2,4,6,10]
+	context["monthList"]=monthList
+
+	context["avance"]=avance
+	context["month"]=month
+	context["year"]=year
+	context["monthName"]=calendar.month_name[month]
+
+	context["NOMBREPACIENTE"] = nomPaciente
+	context["NOMBREDOCTOR"] = nomMedico
+	context["NOMBREESPECIALIDAD"] = especialidad
+	context["CODMEDICO"] = codMedico
+	context["DNIPACIENTE"] = dniPaciente
+
+
+	return render(request, 'turnosapp/seleccionturno.html', context)
+

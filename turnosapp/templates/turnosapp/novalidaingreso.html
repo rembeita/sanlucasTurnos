@@ -1,0 +1,32 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Sistema de Turnos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="blurBg-false" style="background-color:#EBEBEB">
+
+
+
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/static/formoid-solid-blue.css" type="text/css" />
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="/turnosapp/">
+        {% csrf_token %}
+	<div class="title">
+		<h2>Sistema de Turnos</h2>
+	</div>
+	<div class="element-input">
+		<label class="title"></label>
+			<div class="item-cont" align="center" style="font-size: 20px">
+				<p style="color:red;">{{ MENSAJE }} <br/>{{ MENSAJE2 }}</p>
+			</div></div>
+<div class="submit">
+	<input type="submit" name="commit" value="Salir"/>
+</div>
+
+</form>
+</body>
+</html>
+
+

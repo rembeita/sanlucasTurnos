@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Sistema de Turnos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="blurBg-false" style="background-color:#EBEBEB">
+
+
+
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/static/formoid-solid-blue.css" type="text/css" />
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<form class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:480px;min-width:150px" method="post" action="/turnosapp/cierreturno/">
+        {% csrf_token %}
+	<div class="title">
+		<h2>Sistema de Turnos</h2>
+	</div>
+	<div class="title2" align="center">
+		<h3>PACIENTE: {{ nomPaciente }}</h3>
+		<h3>DNI: {{ dniPaciente }}</h3>
+		<h3>MEDICO: {{ nomMedico  }}</h3>
+		<h3>ESPECIALIDAD: {{ especialidad  }}</h3>
+		<h3>FECHA: {{ fecha }}</h3>
+	      	<input type="hidden" name="nomPaciente" value="{{ nomPaciente }}">
+	        <input type="hidden" name="dniPaciente" value="{{ dniPaciente }}">
+        	<input type="hidden" name="codMedico" value="{{ codMedico }}">
+      	 	<input type="hidden" name="nomMedico" value="{{ nomMedico }}">
+      		<input type="hidden" name="especialidad" value="{{ especialidad }}">
+      		<input type="hidden" name="fecha" value="{{ fecha }}">
+      		<input type="hidden" name="fechaDatabase" value="{{ fechaDatabase }}">
+
+	</div>
+	<div class="title3">
+		<h4>Turnos Disponibles</h4>
+	</div>
+	<div class="element-input"> 
+			<label class="title"></label> 
+				<div class="item-cont" align="center">
+				     <table>
+		                        {% for key, value in dicMedicoLibre %}
+                		                {% cycle '<tr>' '' '' '' %}
+                               		 <td>
+						<button name="horarioMedico" type="submit" id="botonmedico"  value="{{ key }} | {{ value }}">{{ value }}</button>
+                               		 </td>
+                              		  {% cycle '' '' '' '</tr>' %}
+                      			  {% endfor %} 
+              		             </table>
+				</div>
+	
+	</div>
+
+<div class="submit">
+	<input type="submit" name="return" value="Salir">
+</div>
+
+</form>
+</body>
+</html>
+
+

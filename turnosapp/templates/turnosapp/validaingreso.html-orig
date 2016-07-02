@@ -1,0 +1,24 @@
+{% include "turnosapp/header.html" %}
+<body>
+<section class="container">
+    <div class="site">
+      <h1>Sistema de Turnos</h1>
+      <h3>Nombre: {{ ACCIDEN }}</h3>
+	<h3>Seleccione el medico</h3>
+	<form method="post" action="/turnosapp/elegirTurno/">
+ 
+		{% for key, value in DICMEDICOTMP.iteritems %}
+		<p class="submit"><input type="submit" name="datosmedico" value="{{ value.1 }} || {{value.3}} || {{value.0 }}"> </p>
+ 		{% endfor %} 
+
+   		{% csrf_token %}
+       		<p class="submit">
+			<input type="submit" name="return" value="Salir">
+			<input type="hidden" name="nombrepaciente" value="{{ ACCIDEN }}">
+		</p>
+  	</form>  
+
+    </div>
+</section>
+</body>
+</html>

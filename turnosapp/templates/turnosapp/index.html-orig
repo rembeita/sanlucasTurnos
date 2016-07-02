@@ -1,0 +1,17 @@
+{% include 'turnosapp/header.html' %}
+<body>
+  <section class="container">
+    <div class="login">
+      <h1>Sistema de Turnos</h1>
+      <form method="post" action="/turnosapp/validaringreso/">
+        {% csrf_token %}
+        <p><input type="text" name="documento" value="" placeholder="Documento"></p>
+        <p><input type="text" name="telefono" value="" placeholder="Telefono"></p>
+        <p class="submit"><input type="submit" name="commit" value="Ingresar"></p>
+      </form>
+    </div>
+
+  </section>
+
+</body>
+</html>

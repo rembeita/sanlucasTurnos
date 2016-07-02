@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8" />
+        <title>Sistema de Turnos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="blurBg-false" style="background-color:#EBEBEB">
+
+<div class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:14px;font-family:'Roboto',Arial,Helvetica,sans-serif;color:#34495E;max-width:600px;min-width:150px">
+
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/static/formoid-solid-blue.css" type="text/css" />
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<div class="title">
+                <h2>Sistema de Turnos</h2>
+</div>
+
+<div class="title2" align="center">
+	<h3>PACIENTE: {{ NOMBREPACIENTE }}</h3>
+	<h3>DNI: {{ DNIPACIENTE }}</h3>
+	<h3>DOCTOR: {{ NOMBREDOCTOR }}</h3>
+	<h3>ESPECIALIDAD: {{ NOMBREESPECIALIDAD }}</h3>
+</div>
+
+
+<form method="post" action="/turnosapp/elegirTurno/">
+	{% csrf_token %}
+	<input type="hidden" name="year" value="{{ year }}">
+	<input type="hidden" name="month" value="{{ month }}">
+	<input type="hidden" name="nomPaciente" value="{{ nomPaciente }}">
+	<input type="hidden" name="dniPaciente" value="{{ dniPaciente }}">
+	<input type="hidden" name="codMedico" value="{{ codMedico }}">
+	<input type="hidden" name="nomMedico" value="{{ nomMedico }}">
+	<input type="hidden" name="especialidad" value="{{ especialidad }}">
+	<input type="hidden" name="avance" value="{{ avance }}">
+	<div align=center>
+	<table class=tableControl>
+	<tr border=0>
+		{% if avance > 0 and avance <= 2 %}
+			<td width=100px align="left"><button name="accion" type="submit" id="accion"  value="Retroceder" >Retroceder</button>
+		{% else %}
+			<td width=100px></td>
+		{% endif %}
+
+		<td align="center">Mes de {{ monthName }} de {{ year }}</td>
+
+		{% if avance < 2 and avance >= 0 %}
+			<td width=100px align="left"><button name="accion" type="submit" id="accion"  value="Avanzar" >Avanzar</button>
+		{% else %}
+			<td width=100px></td>
+	       	{% endif %}
+	</table>
+	</div> 
+</form>
+
+<form method="post" action="/turnosapp/confirmaturno/">
+	{% csrf_token %}
+	<input type="hidden" name="year" value="{{ year }}">
+	<input type="hidden" name="month" value="{{ month }}">
+	<input type="hidden" name="nomPaciente" value="{{ nomPaciente }}">
+	<input type="hidden" name="dniPaciente" value="{{ dniPaciente }}">
+	<input type="hidden" name="codMedico" value="{{ codMedico }}">
+	<input type="hidden" name="nomMedico" value="{{ nomMedico }}">
+	<input type="hidden" name="especialidad" value="{{ especialidad }}">
+	<input type="hidden" name="avance" value="{{ avance }}">
+
+	<div align=center>
+	<table class=tableCalendar>
+	<tr><td width=100px>Lunes</td><td width=100px>Martes</td><td width=100px>Miercoles</td><td width=100px>Jueves</td><td width=100px>Viernes</td><td width=100px>Sabado</td><td width=100px>Domingo</td></tr>
+
+	{% for week in monthTurno %}
+		<tr class=trCalendar>
+	        {% for day in week %}
+			<td class=tdCalendar>
+                	{% for dayTurno, turnos in day.items %}
+				{% if turnos == "" %}
+					{% if dayTurno != 0 %}
+						{{dayTurno}}
+					{% endif %}
+				{% else %}
+					<button name="buttonDay" type="submit"id="buttonDay"  value="{{turnos}}" >{{dayTurno}}</button>
+				{% endif %}
+	                {% endfor %}
+			</td>
+	        {% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+	</div> 
+<div class="submit">
+        <input type="submit" name="return" value="Salir">
+</div>
+
+</form>
+</div>
+</body>
+</html>
